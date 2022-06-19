@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container" id="indexcontainer">
+    <i class="fas fa-heart" style="float:left"></i>
+
+    <div class="featured">
+   </div>
+    <section id="content">
+      <div class="row">
+        <div class="col-md-8">
+          <img src="{{hoods.hood_img.url}}" class="img-fluid" />
+        </div>
+        <div class="col-md-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Name:</p>
+              </div>
+              <div class="col-sm-7">
+                <p class="text-muted mb-0" id="title1">{{hoods.name}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Description:</p>
+              </div>
+              <div class="col-sm-7">
+                <p class="text-muted mb-0">{{hoods.description}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Location</p>
+              </div>
+              <div class="col-sm-7">
+                <p class="text-muted mb-0">{{hoods.location}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Health Emergency Conatact</p>
+              </div>
+              <div class="col-sm-7">
+                <p class="text-muted mb-0">{{hoods.health_tell}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Police Conatact</p>
+              </div>
+              <div class="col-sm-7">
+                <p class="text-muted mb-0">{{hoods.police_number}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-5">
+                <p class="mb-0" id="header">Join Neighborhood</p>
+              </div>
+              <div class="col-sm-7">
+                {% if request.user.profile.neighbourhood == hoods %}
+               <p> <a href="{% url 'leavehood' id=hoods.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a></p>
+                {% elif not request.user.profile.neighbourhood %}
+                <p><a href="{% url 'joinhood' id=hoods.id %}" class="btn btn-primary btn-sm">Join Hood</a></p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+  
+      </div>
+      </div>
+  
+    </section>
+    
+  </div>
+{%endblock%}
