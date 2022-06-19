@@ -1,9 +1,9 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
-from .models import Profile,Post
-from .forms import  UpdateUserForm, UpdateUserProfileForm
+from .models import Profile,Post,NeighbourHood
+from .forms import  UpdateUserForm, UpdateUserProfileForm,NeighbourHoodForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -11,7 +11,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    return render (request, 'index.html')
+    all_hoods=NeighbourHood.objects.all()
+
+    return render (request, 'index.html',{"all_hoods":all_hoods})
 
 def signin(request):
     if request.method== "POST":
@@ -80,3 +82,54 @@ def update_profile(request):
     }
     return render(request, 'update_profile.html', contex)    
 
+@login_required(login_url='/accounts/login/')
+def posthood(request):
+    if request.method == 'POST':
+        form = NeighbourHoodForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user=request.user
+            project.save()
+            
+        return redirect('/')
+    else:
+        form = NeighbourHoodForm()
+    try:
+        posts=Post.objects.all() 
+        posts=posts[::-1]
+    except Post.DoesNotExist:
+        posts=None
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'addhood.html', context)
+
+
+def displayhood(request):
+    all_hoods=NeighbourHood.objects.all()
+
+    return render(request,'displayhood.html',{"all_hoods":all_hoods})
+
+def join_hood(request,id):
+    neighbourhood=get_object_or_404(NeighbourHood,id=id)  
+    request.user.profile.neighbourhood=neighbourhood
+    request.user.profile.save()
+    return redirect('displayhood')  
+def leave_hood(request,id):
+    hood=get_object_or_404(NeighbourHood,id=id)  
+    request.user.profile.neighbourhood=None
+    request.user.profile.save()
+    return redirect('displayhood')      
+
+
+@login_required(login_url='login')
+def viewhood(request,hood_id):
+    hoods = NeighbourHood.objects.get(id=hood_id)
+    params={
+        "hoods":hoods
+    }
+    return render(request,'viewhood.html',params)
+
+
+# def post_bussiness
