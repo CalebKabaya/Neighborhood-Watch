@@ -2,4 +2,7 @@
 {% extends 'base.html' %}
 {% block content%}
 <h2 class="text-center">welcome</h2>
+{% for hood in all_hoods %}
+{{hood.name}}
+{% endfor %}
 {% endblock%}

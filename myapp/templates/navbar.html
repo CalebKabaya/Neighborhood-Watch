@@ -46,18 +46,43 @@
                         </ul>
                     </div>
                 </li>
-                <!-- Default dropright button -->
+                {% if user.profile.neighbourhood %}
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'viewhood' user.profile.neighbourhood.id%}">
 
+                    <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">My Neighborhood</button>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+
+                    <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">No Hood Joined</button>
+                    </a>
+                </li>
+               {% endif %} 
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'newhood'%}">
+                        <button type="button" class="btn btn-light">Add Hood</button>
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'displayhood'%}">
+
+                    <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">View Neighborhoods</button>
+                    </a>
+                </li>
             </ul>
 
-         
+
 
             <a class="nav-link" href="{% url 'signout'%}">
                 <button type="button" class="btn btn-light btn-rounded">Logout</button>
 
             </a>
-{%else%}
+            {%else%}
 
 
             <!-- Left links -->
