@@ -3,7 +3,7 @@
     <!-- Container wrapper -->
     <div class="container">
         <!-- Navbar brand -->
-        <a class="navbar-brand me-2 h1 fw-bold mb-0" href="">Home</a>
+        <a class="navbar-brand me-2 h1 fw-bold mb-0" href="{% url 'displayhood'%}">Home</a>
 
 
         <!-- Toggle button -->
@@ -20,13 +20,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item" id="searchcont">
                     <!-- <a class="nav-link" href="#">Dashboard</a> -->
-                    <form class="d-flex input-group w-auto" action="" method="get">
+                    <form class="form-inline" method="get" action="{% url 'search' %}">
                         {% csrf_token %}
-                        <input type="search" class="form-control rounded" name="title" placeholder="Search"
-                            aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <i class="fas fa-search"></i>
-                        </span>
+                        <div class="md-form my-0">
+                            <input class="form-control mr-sm-2 " type="text" placeholder="Search Hood" name="title" aria-label="Search">
+                        </div>
                     </form>
                 </li>
                 <li class="nav-item">
@@ -68,12 +66,7 @@
 
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'displayhood'%}">
-
-                    <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">View Neighborhoods</button>
-                    </a>
-                </li>
+                
             </ul>
 
 

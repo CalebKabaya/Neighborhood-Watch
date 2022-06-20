@@ -1,83 +1,189 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load bootstrap4 %}
 
 {% block content %}
 <div class="container" id="indexcontainer">
-    <i class="fas fa-heart" style="float:left"></i>
+  <i class="fas fa-heart" style="float:left"></i>
 
-    <div class="featured">
-   </div>
-    <section id="content">
-      <div class="row">
-        <div class="col-md-8">
-          <img src="{{hoods.hood_img.url}}" class="img-fluid" />
+  <div class="featured">
+  </div>
+  <section id="content">
+    <div class="row">
+      <div class="col-md-8">
+        <img src="{{hoods.hood_img.url}}" class="img-fluid" />
+        <hr>
+        <div class="row">
+          <div class="col-sm-2">
+            <p class="mb-0" id="header"> <b>Description:</b></p>
+          </div>
+          <div class="col-sm-10">
+            <p class="text-muted mb-0">{{hoods.description}}</p>
+          </div>
         </div>
-        <div class="col-md-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Name:</p>
-              </div>
-              <div class="col-sm-7">
-                <p class="text-muted mb-0" id="title1">{{hoods.name}}</p>
-              </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Name:</p>
             </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Description:</p>
-              </div>
-              <div class="col-sm-7">
-                <p class="text-muted mb-0">{{hoods.description}}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Location</p>
-              </div>
-              <div class="col-sm-7">
-                <p class="text-muted mb-0">{{hoods.location}}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Health Emergency Conatact</p>
-              </div>
-              <div class="col-sm-7">
-                <p class="text-muted mb-0">{{hoods.health_tell}}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Police Conatact</p>
-              </div>
-              <div class="col-sm-7">
-                <p class="text-muted mb-0">{{hoods.police_number}}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-5">
-                <p class="mb-0" id="header">Join Neighborhood</p>
-              </div>
-              <div class="col-sm-7">
-                {% if request.user.profile.neighbourhood == hoods %}
-               <p> <a href="{% url 'leavehood' id=hoods.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a></p>
-                {% elif not request.user.profile.neighbourhood %}
-                <p><a href="{% url 'joinhood' id=hoods.id %}" class="btn btn-primary btn-sm">Join Hood</a></p>
-                {% endif %}
-              </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0" id="title1">{{hoods.name}}</p>
             </div>
           </div>
-  
+         
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Members:</p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0">{{hoods.members.count}}</p>
+            </div>
+          </div> <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Businesses :</p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0">{{hoods.business.count}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Location</p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0">{{hoods.location}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Emergency Conatact</p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0">{{hoods.health_tell}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Police Conatact</p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-muted mb-0">{{hoods.police_number}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-5">
+              <p class="mb-0" id="header">Join Neighborhood</p>
+            </div>
+            <div class="col-sm-7">
+              {% if request.user.profile.neighbourhood == hoods %}
+              <p> <a href="{% url 'leavehood' id=hoods.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a></p>
+              {% elif not request.user.profile.neighbourhood %}
+              <p><a href="{% url 'joinhood' id=hoods.id %}" class="btn btn-primary btn-sm">Join Hood</a></p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+
+  </section>
+
+</div>
+
+<div class="container mt-5">
+  <a href="" class="btn btn-sm btn-outline-info mb-4 mr-4" data-toggle="modal" data-target="#ModalCenter">Add
+    Business</a>
+  <a class="btn btn-sm btn-outline-info mb-4" data-toggle="modal" data-target="#ModalCenter1" href="{% url 'newpost' %}">New Post</a>
+  <section>
+    <form class="form-inline" method="get" action="{% url 'search' %}">
+      {% csrf_token %}
+      <div class="md-form my-0">
+          <input class="form-control mr-sm-2 " type="text" placeholder="Search Business" name="title" aria-label="Search">
       </div>
-  
-    </section>
-    
+  </form>
+  </section>
+</div>
+<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">New Business</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" enctype="multipart/form-data" novalidate >
+          {% csrf_token%}
+          {{form|crispy}}
+          <button type="submit" class="btn btn-sm btn-success">Save Business</button>
+          <button type="button" class="btn btn-sm btn-outline-danger " data-dismiss="modal">
+            Close
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
-{%endblock%}
+  </div>
+  <div class="container">
+    <div class="modal fade" id="ModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" enctype="multipart/form-data" novalidate >
+          {% csrf_token%}
+          {{post_form|crispy}}
+          <button type="submit" class="btn btn-sm btn-success">Save Business</button>
+          <button type="button" class="btn btn-sm btn-outline-danger " data-dismiss="modal">
+            Close
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="container">
+    <h3 class="text-center mb-3" > Business</h3>
+      <div class="row">
+        {% for post in business%}
+    
+        <div class="col-md-3" id="cont">
+          <div class="card h-100">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img src="{{post.business_logo.url}}" class="img-fluid" />
+              <a href="}">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{post.name}}</h5>
+              <p class="card-text">{{post.description}}</p>
+              <p class="card-text">{{post.email}}</p>
+
+            </div>
+          
+          </div>
+    
+        </div>
+        {% endfor%}
+    
+      </div>
+    </div>
+  {%endblock%}
