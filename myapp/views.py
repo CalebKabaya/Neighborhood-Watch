@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
-from .models import Profile,Post,NeighbourHood
-from .forms import  UpdateUserForm, UpdateUserProfileForm,NeighbourHoodForm
+from .models import Profile,Post,NeighbourHood,Business
+from .forms import  UpdateUserForm, UpdateUserProfileForm,NeighbourHoodForm,BusinessForm,PostForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -126,10 +126,90 @@ def leave_hood(request,id):
 @login_required(login_url='login')
 def viewhood(request,hood_id):
     hoods = NeighbourHood.objects.get(id=hood_id)
+    business = Business.objects.filter(neighbourhood=hoods)
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            b_form = form.save(commit=False)
+            b_form.neighbourhood = hoods
+            b_form.user = request.user.profile
+            b_form.save()
+            return redirect('viewhood', hoods.id)
+    else:
+        form = BusinessForm()
     params={
-        "hoods":hoods
+        "hoods":hoods,
+        'business': business,
+        'form': form,
     }
     return render(request,'viewhood.html',params)
 
+@login_required(login_url='login')
+def create_post(request,hood_id):
 
-# def post_bussiness
+    hood = NeighbourHood.objects.get(id=hood_id)
+    if request.method == 'POST':
+        post_form = PostForm(request.POST)
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.hood = hood
+            post.user = request.user.profile
+            post.save()
+            return redirect('viewhood', hood.id)
+    else:
+        post_form = PostForm()
+    params={
+        'post_form': post_form,
+        'hood':hood
+    }    
+    return render(request, 'viewhood.html', params)
+
+# def create_post(request):
+#     current_user=request.user
+#     profile =Profile.objects.get(user=current_user)
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.author = current_user
+#             post.neighbourhood = profile.neighbourhood
+#             post.save()
+#             return redirect('viewhood')
+#     else:
+#         form = PostForm()
+#     return render(request, 'post.html', {'form': form})
+
+def hood_members(request, hood_id):
+    hood = NeighbourHood.objects.get(id=hood_id)
+    members = Profile.objects.filter(neighbourhood=hood)
+    return render(request, 'members.html', {'members': members})
+
+def search_business(request):
+    if request.method == 'GET':
+        name = request.GET.get("title")
+        results = Business.objects.filter(name__icontains=name).all()
+        print(results)
+        message = f'name'
+        params = {
+            'results': results,
+            'message': message
+        }
+        return render(request, 'results.html', params)
+    else:
+        message = "You haven't searched for any image category"
+    return render(request, "results.html")
+
+def search_business(request):
+    if request.method == 'GET':
+        name = request.GET.get("title")
+        results = NeighbourHood.objects.filter(name__icontains=name).all()
+        print(results)
+        message = f'name'
+        params = {
+            'results': results,
+            'message': message
+        }
+        return render(request, 'hoodresults.html', params)
+    else:
+        message = "You haven't searched for any image category"
+    return render(request, "hoodresults.html")

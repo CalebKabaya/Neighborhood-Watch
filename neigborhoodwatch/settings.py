@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config,Csv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +31,12 @@ SECRET_KEY = 'django-insecure-^61qrcjs(w6=uc=ix%*#3rq+hb)36rh-6rk*pj)pc1mf64(&wc
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+cloudinary.config(
+    cloud_name=config('CLOUD_NAME'), 
+    api_key=config('API_KEY', cast=int), 
+    api_secret=config('API_SECRET'),
+)
+# A
 
 # Application definition
 
@@ -41,6 +50,8 @@ INSTALLED_APPS = [
     'myapp',
     'bootstrap4',
     'crispy_forms',
+    'cloudinary',
+
 ]
 
 MIDDLEWARE = [
