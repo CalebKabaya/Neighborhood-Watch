@@ -4,3 +4,15 @@ h2{
 #indexcontainer{
     margin-top: 7%;
 }
+#header{
+    font-weight: bolder;
+}
+#title1{
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+#sign img{
+    width: 100%;
+    object-fit: fill;
+
+}
