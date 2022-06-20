@@ -15,6 +15,18 @@ urlpatterns=[
     re_path(r'^joinhood/(?P<id>\d+)?$', views.join_hood, name='joinhood'), 
     re_path(r'^leavehood/(?P<id>\d+)?$', views.leave_hood, name='leavehood'), 
     re_path(r'^viewhood/(?P<hood_id>\d+)?$', views.viewhood, name='viewhood'), 
+    # re_path(r'^newpost/(?P<hood_id>\d+)?$', views.create_post, name='newpost'),
+    # re_path('newpost/<hood_id>', views.create_post, name='newpost'),
+    re_path('newpost/<int:hood_id>',views.create_post,name='newpost'),
+        # path('<hood_id>/members', views.hood_members, name='members'),
+    re_path(r'^members/(?P<hood_id>\d+)?$', views.hood_members, name='members'), 
+    re_path('search/', views.search_business, name='search'),
+
+
+
+
+ 
+
   
 ]
 if settings.DEBUG:
