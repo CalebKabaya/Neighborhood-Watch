@@ -13,7 +13,7 @@ Hoodconnect allows users to join a neghbourhood, advertise businesses, create po
 ```
 Landing Page
 ```
-<img src="./static/images/e.png">
+<img src="./static/images/c.png">
 
 
 
