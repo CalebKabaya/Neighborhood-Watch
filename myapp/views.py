@@ -110,12 +110,14 @@ def displayhood(request):
     all_hoods=NeighbourHood.objects.all()
 
     return render(request,'displayhood.html',{"all_hoods":all_hoods})
-
+@login_required(login_url='login')
 def join_hood(request,id):
     neighbourhood=get_object_or_404(NeighbourHood,id=id)  
     request.user.profile.neighbourhood=neighbourhood
     request.user.profile.save()
     return redirect('displayhood')  
+    
+@login_required(login_url='login')
 def leave_hood(request,id):
     hood=get_object_or_404(NeighbourHood,id=id)  
     request.user.profile.neighbourhood=None
