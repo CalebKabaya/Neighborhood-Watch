@@ -104,19 +104,44 @@ def posthood(request):
         'form':form,
     }
     return render(request, 'addhood.html', context)
+@login_required(login_url='/accounts/login/')
+def addposts(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user=request.user
+            project.save()
+            
+        return redirect('/')
+    else:
+        form = PostForm()
+    try:
+        posts=Post.objects.all() 
+        posts=posts[::-1]
+    except Post.DoesNotExist:
+        posts=None
 
+    context = {
+        'form':form,
+    }
+    return render(request, 'post.html', context)
 
 def displayhood(request):
     all_hoods=NeighbourHood.objects.all()
 
     return render(request,'displayhood.html',{"all_hoods":all_hoods})
+def displaypost(request):
+    all_hoods=Post.objects.all()
+
+    return render(request,'displaypost.html',{"all_hoods":all_hoods})    
 @login_required(login_url='login')
 def join_hood(request,id):
     neighbourhood=get_object_or_404(NeighbourHood,id=id)  
     request.user.profile.neighbourhood=neighbourhood
     request.user.profile.save()
     return redirect('displayhood')  
-    
+
 @login_required(login_url='login')
 def leave_hood(request,id):
     hood=get_object_or_404(NeighbourHood,id=id)  

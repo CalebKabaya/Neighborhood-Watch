@@ -11,7 +11,11 @@ urlpatterns=[
     re_path('profile/',views.profile,name='profile'),
     re_path('update', views.update_profile, name='update'),
     re_path('new-hood/', views.posthood, name='newhood'),
+    re_path('newpost/', views.addposts, name='newpost'),
+
     re_path('displayhood/', views.displayhood, name='displayhood'),
+    re_path('displaypost/', views.displaypost, name='displaypost'),
+
     re_path(r'^joinhood/(?P<id>\d+)?$', views.join_hood, name='joinhood'), 
     re_path(r'^leavehood/(?P<id>\d+)?$', views.leave_hood, name='leavehood'), 
     re_path(r'^viewhood/(?P<hood_id>\d+)?$', views.viewhood, name='viewhood'), 
