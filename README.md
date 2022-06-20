@@ -1,8 +1,8 @@
-# Awwards
+# Neghbourhood-Watch
 
 ## Description
+Hoodconnect allows users to join a neghbourhood, advertise businesses, create posts and views other users' posts. 
 
-Awwards is an application which allows developers to post their projects and see how other developers rate them.
 ## Author
 
 [CalebKabaya](https://github.com/CalebKabaya/)
@@ -30,12 +30,13 @@ As a user of the application you will be able to:
 
 ## BDD
 | Behavior            | Input                         | Output                        | 
-| ------------------- | ----------------------------- | ----------------------------- |
+| ------------------- | ----------------------------- | ----------------------------- | 
 |Signup to the application | Click on `Signup` | A sign up page appears with a sign up form |
 |  Login to the site | Click on `Log in`  | Redirected to the login page with a login form |
 |  Search in the search field | Input keywords to be searched then click SEARCH | Search page is loaded and displays with the searched results |
-|Submit a post|click on `Submit`| An upload page appears with an upload form containing different fields|
-|View profile|click `username` link in the navbar|Redirects to profile page with an option to edit profile|
+|Submit a post|click on `Upload Post`| An upload page appears with an upload form containing different fields|
+|View profile|click `account` link in the navbar|Redirects to profile page with an option to edit profile|
+|View businesses|click `businesses`|businesses page with the businesses in the neighbourhood|
 
 
 ## Getting started
@@ -72,7 +73,7 @@ To get the code..
 
 1. Cloning the repository:
   ```bash
-  git clone https://github.com/CalebKabaya/Awwards
+  git clone https://github.com/CalebKabaya/Neighborhood-Watch
   ```
 2. Move to the folder and install requirements
   ```bash
