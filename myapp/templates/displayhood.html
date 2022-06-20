@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container mt-5">
-<h3 class="text-center mb-3" > Projects</h3>
+<h3 class="text-center mb-3" > Neighborhoods</h3>
   <div class="row">
     {% for post in all_hoods%}
 
@@ -21,7 +21,6 @@
         </div>
         
         <div class="card-footer">
-          <small class="text-muted"><a href="" class="btn btn-outline-danger" id="btn">View</a> </small>
           {% if request.user.profile.neighbourhood == post %}
           <a href="{% url 'leavehood' id=post.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a>
           {% elif not request.user.profile.neighbourhood %}

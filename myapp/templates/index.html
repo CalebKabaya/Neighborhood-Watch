@@ -1,8 +1,38 @@
-
 {% extends 'base.html' %}
-{% block content%}
-<h2 class="text-center">welcome</h2>
-{% for hood in all_hoods %}
-{{hood.name}}
-{% endfor %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5">
+<h3 class="text-center mb-3" > Neighborhoods</h3>
+  <div class="row">
+    {% for post in all_hoods%}
+
+    <div class="col-md-6 mb-5" id="cont">
+      <div class="card h-100">
+        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+          <img src="{{post.hood_img.url}}" class="img-fluid" />
+          <a href="{% url 'viewhood' hood_id=post.id %}">
+            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{post.name}}</h5>
+          <p class="card-text">{{post.description}}</p>
+        
+        </div>
+        
+        <div class="card-footer">
+          {% if request.user.profile.neighbourhood == post %}
+          <a href="{% url 'leavehood' id=post.id %}" class="btn btn-outline-danger btn-sm">Leave Hood</a>
+          {% elif not request.user.profile.neighbourhood %}
+          <a href="{% url 'joinhood' id=post.id %}" class="btn btn-primary btn-sm">Join Hood</a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+    {% endfor%}
+
+  </div>
+</div>
+
 {% endblock%}
