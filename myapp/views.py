@@ -127,6 +127,9 @@ def leave_hood(request,id):
 def viewhood(request,hood_id):
     hoods = NeighbourHood.objects.get(id=hood_id)
     business = Business.objects.filter(neighbourhood=hoods)
+    mypost=Post.objects.filter(hood=hoods)
+
+
     if request.method == 'POST':
         form = BusinessForm(request.POST, request.FILES)
         if form.is_valid():
@@ -141,6 +144,7 @@ def viewhood(request,hood_id):
         "hoods":hoods,
         'business': business,
         'form': form,
+        'mypost':mypost,
     }
     return render(request,'viewhood.html',params)
 
@@ -155,7 +159,7 @@ def create_post(request,hood_id):
             post.hood = hood
             post.user = request.user.profile
             post.save()
-            return redirect('viewhood', hood.id)
+            return redirect('newpost', hood.id)
     else:
         post_form = PostForm()
     params={
@@ -163,7 +167,45 @@ def create_post(request,hood_id):
         'hood':hood
     }    
     return render(request, 'viewhood.html', params)
+ 
+# def addpost(request, hood_id):
+#     current_user = request.user.id
+#     profile = Profile.objects.get(user=request.user.id)
+#     # profile=request.user.profile
+#     post = NeighbourHood.objects.get(id=hood_id)
+#     # hood=request.user.profile.neighbourhood
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.user_id = current_user
+#             comment.user_profile=profile
+#             comment.post_id = post
+#             comment.post=post
+#             comment.save()
+#         return redirect('viewhood')
+#     else:
+#         form = PostForm()
+#     ctx = {
+#         'form': form,
+#         # 'post': post
+#     }
+#     return render(request, 'post.html', ctx)
 
+# @login_required(login_url='login')
+# def create_post(request):
+#     if request.method == 'POST':
+
+#         title=request.POST["title"]
+#         post=request.POST["post"]
+
+#         new_post=Post.objects.create_post(
+#             title=title,
+#             post=post,
+#         )
+#         new_post.save()
+#         return render (request,'viewhood.html')
+#     return render(request,'viewhood.html')
 # def create_post(request):
 #     current_user=request.user
 #     profile =Profile.objects.get(user=current_user)
@@ -213,3 +255,65 @@ def search_business(request):
     else:
         message = "You haven't searched for any image category"
     return render(request, "hoodresults.html")
+
+@login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = request.user
+    profile = request.user.profile
+    neighbourhood = request.user.profile.neighbourhood
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = current_user
+            post.author_profile = profile
+            post.hood = neighbourhood
+            post.save()
+        return redirect('addpost')
+    else:
+        form = PostForm()
+    return render(request, 'post.html', {"form": form})
+
+def create_post(request, hood_id):
+    hood = NeighbourHood.objects.get(id=hood_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.hood = hood
+            post.user = request.user.profile
+            post.save()
+            return redirect('viewhood', hood.id)
+    else:
+        form = PostForm()
+    return render(request, 'post.html', {'form': form})
+
+def add_post(request,hood_id):
+    current_user = request.user
+    user = User.objects.get(username=current_user.username)
+    myhoods = NeighbourHood.objects.get(id=hood_id)
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            # form.save()
+            comment = form.save(commit=False)
+            comment.user = user
+            comment.hood = myhoods
+            comment.save()
+            return redirect('/')
+        else:
+            form = PostForm()
+    ctx = {
+        'form': form,
+        'myhoods': myhoods
+    }
+    return render(request, 'post.html', ctx)
+
+# def add_post(request, hood_id):
+
+#     hooda = Business.objects.get(id=hood_id)
+#     ctx = {
+#         'hooda': hooda
+#     }
+#     return render(request, 'post.html', ctx)    
