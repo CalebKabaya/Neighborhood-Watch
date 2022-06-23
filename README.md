@@ -31,6 +31,7 @@ As a user of the application you will be able to:
 ## BDD
 | Behavior            | Input                         | Output                        | 
 | ------------------- | ----------------------------- | ----------------------------- | 
+| Login to admin  | **username**: moringa , **password** : Mbuguack7 | view and make changes to the admin | 
 |Signup to the application | Click on `Signup` | A sign up page appears with a sign up form |
 |  Login to the site | Click on `Log in`  | Redirected to the login page with a login form |
 |  Search in the search field | Input keywords to be searched then click SEARCH | Search page is loaded and displays with the searched results |
